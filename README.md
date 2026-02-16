@@ -1,7 +1,8 @@
 # Laboratory Work 1: Grammar and Finite Automaton
 
 **Course:** Formal Languages & Finite Automata  
-**Author:** [Your Name]  
+**Author:** Cosneanu Corina
+
 **Variant:** 9
 
 ## Theory

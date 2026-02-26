@@ -22,7 +22,19 @@ This laboratory work focuses on understanding the fundamental relationships betw
 ## Variant 9 Definition
 
 ### Finite Automaton
-The finite automaton for Variant 9 is defined with five states Q = {q0, q1, q2, q3, q4}, an alphabet Σ = {a, b, c}, and q4 as the single final state. The transition function includes δ(q0, a) = q1, which represents the initial transition from the starting state. From q1, the automaton exhibits non-deterministic behavior with two possible transitions on symbol 'b': δ(q1, b) = q2 and δ(q1, b) = q3, making this a non-deterministic finite automaton. State q2 transitions back to q0 with δ(q2, c) = q0, creating a potential loop. State q3 has two transitions: δ(q3, a) = q4 leading to the final state, and δ(q3, b) = q0 returning to the initial state.
+The finite automaton for Variant 9 is defined with the following components:
+- **Q** = {q0, q1, q2, q3, q4}
+- **Σ** = {a, b, c}
+- **F** = {q4}
+- **Transitions**:
+  - δ(q0, a) = q1
+  - δ(q1, b) = q2
+  - δ(q1, b) = q3 ← **Non-deterministic!**
+  - δ(q2, c) = q0
+  - δ(q3, a) = q4
+  - δ(q3, b) = q0
+
+The automaton exhibits non-deterministic behavior at state q1, where symbol 'b' leads to two different states (q2 and q3), making this a non-deterministic finite automaton. State q2 creates a potential loop by transitioning back to q0, while q3 provides paths to both the final state q4 and back to the initial state q0.
 
 ## Implementation
 
@@ -135,16 +147,35 @@ def to_regular_grammar(self):
 ## Results
 
 ### Task 1: Grammar Classification
-The Lab 1 grammar is classified as **Type 3 (Regular Grammar)**. This classification is based on the production rules S → a B | b B, B → c D, D → d Q | a, and Q → b B | d Q, which all follow the right-linear format where each production takes the form A → aB or A → a, satisfying the requirements for regular grammars.
+The Lab 1 grammar is classified as **Type 3 (Regular Grammar)**. This classification is based on the production rules which all follow the right-linear format where each production takes the form A → aB or A → a, satisfying the requirements for regular grammars.
+
+**Productions**:
+- S → a B | b B
+- B → c D
+- D → d Q | a
+- Q → b B | d Q
 
 ### Task 2: Determinism Check
 The analysis reveals that the finite automaton is **Non-Deterministic (NDFA)**. The reason for this classification is that state q1 has multiple transitions for symbol 'b', specifically δ(q1, b) = q2 and δ(q1, b) = q3, creating ambiguity in the transition function.
 
 ### Task 3: NDFA to DFA Conversion
-The conversion to DFA was successfully completed with the following state transitions. The initial state {q0} transitions with 'a' to {q1}. From {q1}, the symbol 'b' leads to the combined state {q2, q3}, which represents both possible paths from the original non-deterministic transition. The combined state {q2, q3} then has three transitions: with 'a' it goes to {q4} (the final state), with 'b' it returns to {q0}, and with 'c' it also returns to {q0}. The combined state {q2, q3} effectively resolves the non-determinism by capturing both possible execution paths simultaneously.
+The conversion to DFA was successfully completed. The original NDFA state q1, which had non-deterministic transitions with 'b' going to both q2 and q3, is resolved in the DFA by creating a combined state {q2, q3}. The resulting DFA has four distinct states where the combined state effectively captures both possible paths that could have been taken in the NDFA.
+
+**DFA States and Transitions**:
+- {q0} → with 'a' → {q1}
+- {q1} → with 'b' → {q2, q3}
+- {q2, q3} → with 'a' → {q4} (final state)
+- {q2, q3} → with 'b' → {q0}
+- {q2, q3} → with 'c' → {q0}
 
 ### Task 4: FA to Grammar Conversion
-The finite automaton was successfully converted to a Regular Grammar with the following production rules: q0 → a q1, q1 → b q2 | b q3, q2 → c q0, and q3 → a q4 | a | b q0. This grammar is classified as **Type 3 (Regular Grammar)**, confirming the theoretical equivalence between finite automata and regular grammars.
+The finite automaton was successfully converted to a Regular Grammar. This grammar is classified as **Type 3 (Regular Grammar)**, confirming the theoretical equivalence between finite automata and regular grammars.
+
+**Productions**:
+- q0 → a q1
+- q1 → b q2 | b q3
+- q2 → c q0
+- q3 → a q4 | a | b q0
 
 ## Conclusions
 
@@ -158,12 +189,30 @@ Overall, this laboratory successfully illustrates the relationships between fini
 
 ## How to Run
 
-To execute this laboratory work, navigate to the lab2lfaf directory using the command `cd "d:\LAB 2\lab2lfaf"` and then run the main program with `python main.py`. The implementation requires Python 3.x and does not depend on any external libraries, making it easy to run on any system with a standard Python installation.
+To execute this laboratory work:
+
+```bash
+# Navigate to the lab2lfaf directory
+cd "d:\LAB 2\lab2lfaf"
+
+# Run the program
+python main.py
+```
+
+**Requirements**: Python 3.x (no external libraries needed)
 
 ## Files Structure
 
-The project is organized into four main files within the lab2lfaf directory. The `finite_automaton.py` file contains the FiniteAutomaton class with all FA operations including determinism checking, NDFA to DFA conversion, and grammar conversion. The `grammar.py` file implements the Grammar class with Chomsky classification functionality. The `main.py` file serves as the main demonstration program that executes all tasks and displays results. Finally, the `README.md` file provides comprehensive documentation of the theory, implementation, and results.
+```
+lab2lfaf/
+├── finite_automaton.py  # FiniteAutomaton class with all FA operations
+├── grammar.py           # Grammar class with Chomsky classification
+├── main.py             # Main demonstration program
+└── README.md           # This file
+```
 
 ## References
 
-This laboratory work draws upon foundational texts in automata theory and formal languages. The comprehensive treatment of automata theory, languages, and computation by Hopcroft, J. E., Motwani, R., & Ullman, J. D. (2006) in *Introduction to Automata Theory, Languages, and Computation* published by Pearson provides the theoretical framework for finite automata and grammar conversions. Sipser, M.'s *Introduction to the Theory of Computation* (2012) from Cengage Learning offers additional perspective on determinism and computational models. The foundational work by Chomsky, N. titled "Three models for the description of language" published in *IRE Transactions on Information Theory* (1956) establishes the hierarchy used for grammar classification throughout this work.
+1. Hopcroft, J. E., Motwani, R., & Ullman, J. D. (2006). *Introduction to Automata Theory, Languages, and Computation*. Pearson.
+2. Sipser, M. (2012). *Introduction to the Theory of Computation*. Cengage Learning.
+3. Chomsky, N. (1956). "Three models for the description of language". *IRE Transactions on Information Theory*.

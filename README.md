@@ -1,7 +1,7 @@
 # Laboratory Work 2: Determinism and Grammar Classification
 
 **Course:** Formal Languages & Finite Automata  
-**Author:** [Your Name]  
+**Author:** Cosneanu Corina 
 **Variant:** 9
 
 ## Theory

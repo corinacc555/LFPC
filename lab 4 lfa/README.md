@@ -1,7 +1,7 @@
 # Laboratory Work 4: Regular Expressions and Word Generation
 
 Course: Formal Languages and Finite Automata  
-Author: Cosneanu Corina
+Author: Coșneanu Corina
 
 ## What Regular Expressions Are
 

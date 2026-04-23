@@ -1,43 +1,55 @@
-# Laboratory 5: Chomsky Normal Form
+﻿# Laboratory Work 5: Chomsky Normal Form
 
-## 1. Introduction
-This project implements a normalizer that converts a Context-Free Grammar (CFG) into its equivalent Chomsky Normal Form (CNF) according to the algorithms of Formal Languages and Automata. It handles epsilon productions, unit productions, inaccessible symbols, non-productive symbols, and finally factors productions into standard binary and terminal variables.
+**Course:** Formal Languages & Finite Automata  
+**Author:** Cosneanu Corina  
+**Variant:** 9  
 
-## 2. Theory
-Chomsky Normal Form requires every production step in a Context-Free Grammar (CFG) to be of the form:
-- $A \rightarrow BC$ (where A, B, C are non-terminals)
-- $A \rightarrow a$ (where a is a terminal)
+## Theory
+Chomsky Normal Form (CNF) requires every production step in a Context-Free Grammar (CFG) to strictly produce either exactly two non-terminal symbols or exactly one terminal symbol ( \rightarrow BC$ or  \rightarrow a$). Rather than allowing arbitrary derivation pathways, CNF enforces a strict binary tree structure on the grammar's derivations. This normalization bounds parsing depth and guarantees predictable logic for parsing algorithms.
 
-To achieve this, the following pipeline is executed:
-1.  **Eliminate Epsilon Productions:** Find nullable symbols and remove transitions resolving to $\epsilon$ while preserving generating paths.
-2.  **Eliminate Unit Productions:** Remove productions of the form $A \rightarrow B$, replacing $B$ with its generating set to flatten derivation trees.
-3.  **Eliminate Inaccessible Symbols:** Remove symbols which cannot be reached from the Start non-terminal ($S$).
-4.  **Eliminate Non-Productive Symbols:** Remove symbols that cannot generate any terminal string.
-5.  **Transform to CNF:** Factor remaining long non-terminal sequences and replace explicitly specified terminal sequences with their associated variables ($X_a \rightarrow a$) and newly created intermediate symbols ($Z_n \rightarrow A B$).
+## Objectives
+1. Implement a normalizer that converts a Context-Free Grammar (CFG) into its equivalent Chomsky Normal Form (CNF).
+2. Apply the five algorithmic steps: eliminating epsilon productions, unit productions, inaccessible symbols, and non-productive symbols, followed by the final CNF factorization.
+3. Encapsulate the implementation logic into a reusable method.
+4. Ensure the program accepts any grammar definition dynamically, not just the hardcoded Variant 9.
 
-## 3. Implementation Details
-The conversion algorithm is cleanly encapsulated within the `Grammar` class located in `grammar_normalizer/grammar.py`.
-The process exposes the public method `to_cnf()`, which orchestrates each step sequentially and modifies the grammar's internal state mappings (`self.p` for productions, `self.vn` for Non-terminals, `self.vt` for Terminals).
+## Implementation description
+The transformation pipeline is cleanly encapsulated inside the Grammar class. It manages internal dictionaries and sets for productions, terminals, and non-terminals.
 
-The system accepts an initial dictionary definition parameter allowing for arbitrary grammar parsing - satisfying the bonus requirements.
+`python
+class Grammar:
+    def __init__(self, vn, vt, p, start_symbol):
+        self.vn = set(vn)
+        self.vt = set(vt)
+        self.p = p
+        self.start = start_symbol
+`
 
-### Grammar Input (Variant 9)
-```
-Vn = {S, A, B, C, D}
-Vt = {a, b}
-P = {
-    S -> B | BC | bA
-    A -> a | aS | bAaAb
-    B -> A | aAa | bS
-    C -> ε | AB
-    D -> AB
-}
-```
+The algorithm systematically addresses structural deviations in five distinct stages, orchestrated by the 	o_cnf() method. First, it identifies nullable symbols and eliminates epsilon productions while preserving alternate generating paths. Next, it resolves unit productions by replacing the target non-terminal with its generative set to flatten derivation trees. 
 
-## 4. Output Example
-Running `python main.py` provides the step-by-step resolution:
+`python
+    def to_cnf(self):
+        self.eliminate_epsilon()
+        self.eliminate_unit()
+        self.eliminate_inaccessible()
+        self.eliminate_non_productive()
+        self.factor_to_cnf()
+`
 
-```text
+In the third step, the module computes the reachable set of symbols from the start non-terminal and removes any inaccessible rules. After that, it iteratively identifies productive symbols that can eventually derive terminal strings, pruning any path trapped in an infinite loop. Finally, the algorithm transforms the remaining rules into strict CNF by substituting inline terminals with dedicated non-terminal wrappers ( \rightarrow a$) and breaking down lengthy rule sequences using newly generated intermediate variables ($).
+
+## How to run the program
+To execute the normalizer, navigate to its directory and run the main script. From the terminal, change to the folder d:\LAB 2\lfa\lab5lfaf\grammar_normalizer and execute:
+python main.py
+
+This will trigger the normalization of the given Variant 9 grammar and display the state of the production rules step-by-step in the console.
+
+## Conclusions / Screenshots / Results
+Through carefully modularizing the Chomsky pipeline, each transformation independently restricts the structural deviations of the formal grammar, successfully bounding the derivation tree to the required Chomsky binary depth strictures without altering the language originally generated.
+
+Below is the terminal output demonstrating the execution sequence leading up to the final Chomsky Normal Form state:
+
+`	ext
 Original Grammar:
 A -> a | aS | bAaAb
 B -> A | aAa | bS
@@ -78,10 +90,10 @@ C -> AB
 S -> BC | X_aS | X_aZ_2 | X_bA | X_bS | X_bZ_1 | a
 X_a -> a
 X_b -> b
-```
+`
+"@
+Set-Content -Path 'd:\LAB 2\lfa\lab5lfaf\README.md' -Value  -Encoding UTF8
+cd d:\ ; git clone https://github.com/corinacc555/LFPC.git LFPC_clone3 ; cd LFPC_clone3 ; Copy-Item -Force 'd:\LAB 2\lfa\lab5lfaf\README.md' '.\lab5lfaf\' ; git add . ; git commit -m "Update formatting of Lab 5 README to match template" ; git push origin main
 
-## 5. Conclusion
-Through carefully modularizing the Chomsky pipeline, it is verified that each transformation independently restricts the structural deviations of the formal grammar, successfully bounding the derivation tree to the required Chomsky binary depth structure without altering the language originally generated.
 
-*Important Note on Repository Submission Format:*
-Please note that you should consider moving the code out of the `lab5lfaf` naming convention prior to pushing it to a public GitHub branch, to avoid point penalties (per lab evaluation instructions: "Please don't name your folders based on the lab work e.g. Lab1").
+cd d:\ ; git clone https://github.com/corinacc555/LFPC.git LFPC_clone3 ; cd LFPC_clone3 ; Copy-Item -Force 'd:\LAB 2\lfa\lab5lfaf\README.md' '.\lab5lfaf\' ; git add . ; git commit -m "Update formatting of Lab 5 README to match template" ; git push origin main

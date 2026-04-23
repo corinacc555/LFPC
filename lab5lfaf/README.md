@@ -44,7 +44,7 @@ python main.py
 
 This will trigger the normalization of the given Variant 9 grammar and display the state of the production rules step-by-step in the console.
 
-## Conclusions / Screenshots / Results
+## Conclusions and Results
 Through carefully modularizing the Chomsky pipeline, each transformation independently restricts the structural deviations of the formal grammar, successfully bounding the derivation tree to the required Chomsky binary depth strictures without altering the language originally generated.
 
 Below is the terminal output demonstrating the execution sequence leading up to the final Chomsky Normal Form state:

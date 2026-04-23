@@ -13,6 +13,19 @@ Chomsky Normal Form (CNF) requires every production step in a Context-Free Gramm
 3. Encapsulate the implementation logic into a reusable method.
 4. Ensure the program accepts any grammar definition dynamically, not just the hardcoded Variant 9.
 
+## Task Specification (Variant 9)
+The given Context-Free Grammar for this variant consists of the following components:
+- **Non-terminals ($V_n$):** S, A, B, C, D
+- **Terminals ($V_t$):** a, b
+- **Productions ($P$):**
+  - $S \rightarrow B \mid BC \mid bA$
+  - $A \rightarrow a \mid aS \mid bAaAb$
+  - $B \rightarrow A \mid aAa \mid bS$
+  - $C \rightarrow \epsilon \mid AB$
+  - $D \rightarrow AB$
+
+The goal is to automatically traverse these productions, identifying nullable elements (like $C \rightarrow \epsilon$), resolving alias chains ($S \rightarrow B \rightarrow A$), and ultimately breaking down long productions (like $A \rightarrow bAaAb$) to achieve Chomsky Normal Form.
+
 ## Implementation description
 The transformation pipeline is cleanly encapsulated inside the `Grammar` class. It manages internal dictionaries and sets for productions, terminals, and non-terminals.
 

@@ -1,4 +1,4 @@
-# Laboratory Work 5: Parsing and Abstract Syntax Trees
+# Laboratory Work 6: Parsing and Abstract Syntax Trees
 
 **Course:** Formal Languages and Finite Automata  
 **Author:** Cosneanu Corina
